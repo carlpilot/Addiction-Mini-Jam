@@ -12,8 +12,11 @@ public class PlayerController : MonoBehaviour {
     public float walkSpeed = 1.0f;
     public float walkInertia = 0.4f;
 
+    HealthBar healthBar;
+    int health = 6;
+
     private void Start () {
-        
+        healthBar = FindObjectOfType<HealthBar> ();
     }
 
     private void Update () {
@@ -27,5 +30,15 @@ public class PlayerController : MonoBehaviour {
                 walkTimer = 0;
             }
         } else walkTimer = 0;
+
+        if (Time.time % 1 < Time.deltaTime) AddHealth (1);
     }
+
+    public void SetFullHealth () { SetHealth (6); }
+    public void SetHealth (int newHealth) {
+        health = Mathf.Clamp(newHealth, 0, 6);
+        healthBar.SetHealth (newHealth);
+    }
+    public void AddHealth (int inc) { SetHealth (health + inc); }
+    public int Health { get => health; }
 }
