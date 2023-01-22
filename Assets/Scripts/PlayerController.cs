@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
 
+    public enum HarmType {
+        Drug, Damage
+    }
+
+    public HarmType lastHarm = HarmType.Damage;
+
     public Sprite base1, base2;
     bool sprite1 = true;
     public float walkSpriteCycleSpeed = 0.5f;
@@ -13,10 +19,11 @@ public class PlayerController : MonoBehaviour {
     public float walkInertia = 0.4f;
 
     HealthBar healthBar;
-    int health = 6;
+    int health;
 
     private void Start () {
         healthBar = FindObjectOfType<HealthBar> ();
+        health = maxHealth;
     }
 
     private void Update () {
@@ -31,14 +38,18 @@ public class PlayerController : MonoBehaviour {
             }
         } else walkTimer = 0;
 
-        if (Time.time % 1 < Time.deltaTime) AddHealth (1);
+        if (Time.time % 5 < Time.deltaTime) AddHealth (1);
     }
 
-    public void SetFullHealth () { SetHealth (6); }
-    public void SetHealth (int newHealth) {
-        health = Mathf.Clamp(newHealth, 0, 6);
+    public void SetFullHealth () { SetHealth (maxHealth); }
+    public void SetHealth (int newHealth, HarmType harm) {
+        health = Mathf.Clamp(newHealth, 0, maxHealth);
         healthBar.SetHealth (newHealth);
+        lastHarm = harm;
     }
-    public void AddHealth (int inc) { SetHealth (health + inc); }
+    public void SetHealth (int newHealth) => SetHealth (newHealth, HarmType.Damage);
+    public void AddHealth (int inc) => SetHealth (health + inc);
+    public void AddHealth (int inc, HarmType harm) => SetHealth (Health + inc, harm);
     public int Health { get => health; }
+    public int maxHealth { get => healthBar.hearts.Length * 2; }
 }

@@ -23,9 +23,11 @@ public class CamNearFollow : MonoBehaviour
         }
     }
 
+    /*
     private void OnDrawGizmos () {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere ((Vector2) transform.position, minDist * distMultiplier);
         Gizmos.DrawLine ((Vector2) transform.position, target.position);
     }
+    */
 }

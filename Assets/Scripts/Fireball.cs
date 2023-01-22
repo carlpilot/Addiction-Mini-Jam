@@ -14,10 +14,6 @@ public class Fireball : MonoBehaviour {
     public ParticleSystem particles;
     public ParticleSystem explosionParticles;
 
-    private void Update () {
-        
-    }
-
     public void Propel (Vector2 velocity) {
         GetComponent<Rigidbody2D> ().velocity = velocity;
     }
@@ -28,7 +24,9 @@ public class Fireball : MonoBehaviour {
 
         Explode ();
 
-        if (collision.gameObject.GetComponent<PlayerController> () != null) {
+        if (collision.collider.tag == "Sword") return;
+
+        if (collision.gameObject.tag == "Player") {
             // fireball directly hit the player
             collision.gameObject.GetComponent<PlayerController> ().AddHealth (-(maxDamage + directHitBonus));
         } else {
@@ -36,11 +34,16 @@ public class Fireball : MonoBehaviour {
             foreach (Collider2D col in Physics2D.OverlapCircleAll (transform.position, blastRadius)) {
                 if (col.GetComponent<PlayerController> () != null) {
                     float damage = (col.transform.position - transform.position).magnitude / blastRadius * maxDamage;
-                    col.GetComponent<PlayerController> ().AddHealth (-Mathf.RoundToInt (damage));
+                    col.GetComponent<PlayerController> ().AddHealth (-Mathf.RoundToInt (damage - 1));
                     break;
                 }
             }
         }
+    }
+
+    public void MultiplySpeed (float factor) {
+        if (GetComponent<Rigidbody2D> () == null) return;
+        GetComponent<Rigidbody2D> ().velocity *= factor;
     }
 
     void Explode () {

@@ -6,15 +6,14 @@ using UnityEngine.UI;
 public class HealthBar : MonoBehaviour
 {
     [Header ("Image References")]
-    public Image RH1;
-    public Image RH2, RH3;
+    public Image[] hearts;
     [Header ("Sprites")]
     public Sprite empty;
     public Sprite red, halfRed;
 
-    public void SetHealth (int healthR) {
-        RH1.sprite = healthR > 1 ? red : healthR > 0 ? halfRed : empty;
-        RH2.sprite = healthR > 3 ? red : healthR > 2 ? halfRed : empty;
-        RH3.sprite = healthR > 5 ? red : healthR > 4 ? halfRed : empty;
+    public void SetHealth (int health) {
+        for(int i = 0; i < hearts.Length; i++) {
+            hearts[i].sprite = health >= 2 * (i + 1) ? red : health >= 2 * i + 1 ? halfRed : empty;
+        }
     }
 }
