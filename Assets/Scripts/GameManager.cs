@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour {
         pc = FindObjectOfType<PlayerController> ();
         pa = FindObjectOfType<PlayerAttack> ();
         hb = FindObjectOfType<HealthBar> ();
+        UpdateWinMonsterText ();
     }
 
     private void Update () {
@@ -160,6 +161,10 @@ public class GameManager : MonoBehaviour {
 
     public void ReportMonsterDeath () {
         numMonstersKilled++;
+        UpdateWinMonsterText ();
+    }
+
+    void UpdateWinMonsterText () {
         int numRemaining = minMonstersToKill - numMonstersKilled;
         monsterKillText.text = numRemaining > 0 ? ("Kill " + numRemaining + " more " + (numRemaining != 1 ? "monsters" : "monster")) : "";
     }

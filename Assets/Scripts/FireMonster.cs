@@ -25,6 +25,7 @@ public class FireMonster : MonoBehaviour {
     public float breakBetweenBursts = 3.0f;
     public float shootSpeed = 3.0f;
     public float repulsion = 3.0f;
+    public float maxTrackDist = 10.0f;
 
     bool inCooldown = true;
     float cooldown = 0.0f;
@@ -65,6 +66,8 @@ public class FireMonster : MonoBehaviour {
         }
 
         Vector3 velAttract = dirAttract.normalized * Mathf.Clamp (speed * speedMultiplier * distFromCircle, -speed * speedMultiplier, speed * speedMultiplier);
+        if (distFromCircle > maxTrackDist) velAttract = Vector3.zero;
+
         Vector3 velRepel = dirRepel.normalized * Mathf.Clamp (speed * speedMultiplier * repulsion, -speed * speedMultiplier, speed * speedMultiplier);
         GetComponent<Rigidbody2D> ().velocity = velAttract + velRepel;
 
