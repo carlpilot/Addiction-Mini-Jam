@@ -36,4 +36,12 @@ public class MainMenu : MonoBehaviour {
     public void LoadScene (int scene) {
         SceneManager.LoadScene (scene);
     }
+
+    public void Quit () {
+        Application.Quit ();
+    }
+
+    public void MoreGames () {
+        Application.OpenURL ("https://carlpilot.itch.io/");
+    }
 }

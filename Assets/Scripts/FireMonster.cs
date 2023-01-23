@@ -75,7 +75,7 @@ public class FireMonster : MonoBehaviour {
 
 
 
-        if (inCooldown && !DisableShoot) cooldown += Time.deltaTime;
+        if (inCooldown && !DisableShoot && shootCondition) cooldown += Time.deltaTime;
         else {
             if (timeSinceLastFire >= fireRate / speedMultiplier && shootCondition) {
                 ShootFireball ();

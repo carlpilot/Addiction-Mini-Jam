@@ -662,8 +662,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 375, y: -368.25165}
-  m_SizeDelta: {x: 700, y: 113.49666}
+  m_AnchoredPosition: {x: 375, y: -561.07336}
+  m_SizeDelta: {x: 700, y: 127.85333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1068205828359157355
 MonoBehaviour:
@@ -1214,8 +1214,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 532.5, y: -56.74833}
-  m_SizeDelta: {x: 335, y: 113.49666}
+  m_AnchoredPosition: {x: 532.5, y: -63.926666}
+  m_SizeDelta: {x: 335, y: 127.85333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1068205828702464360
 CanvasRenderer:
@@ -2634,6 +2634,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   winMenu: {fileID: 1068205829423637308}
+  winText: {fileID: 1068205829585904782}
   nextLevelButton: {fileID: 1068205830090137731}
   loseMenu: {fileID: 1068205828280783539}
   loseTitle: {fileID: 1068205830097974730}
@@ -2653,6 +2654,7 @@ MonoBehaviour:
   nightLight: {fileID: 1068205828883720724}
   monsterKillText: {fileID: 1068205830099268577}
   minMonstersToKill: 3
+  monsterCap: 20
 --- !u!114 &1068205829256836407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3093,7 +3095,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 750, y: 450}
+  m_SizeDelta: {x: 750, y: 650}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1068205829423637304
 CanvasRenderer:
@@ -3331,8 +3333,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 167.5, y: -56.74833}
-  m_SizeDelta: {x: 335, y: 113.49666}
+  m_AnchoredPosition: {x: 167.5, y: -63.926666}
+  m_SizeDelta: {x: 335, y: 127.85333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1068205829459173739
 CanvasRenderer:
@@ -3779,8 +3781,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 375, y: -86.503334}
-  m_SizeDelta: {x: 700, y: 123.00667}
+  m_AnchoredPosition: {x: 375, y: -172.14667}
+  m_SizeDelta: {x: 700, y: 294.29333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1068205829585904783
 CanvasRenderer:
@@ -3810,7 +3812,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: LEVEL COMPLETE!
+  m_text: 'LEVEL COMPLETE!
+
+    Time:\t12.345 s
+
+    Best:\t9.876 s'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f73cdcd560c0f7b46ba9a091fa74c2e3, type: 2}
   m_sharedMaterial: {fileID: -6072738314324649446, guid: f73cdcd560c0f7b46ba9a091fa74c2e3, type: 2}
@@ -4728,8 +4734,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 375, y: -229.755}
-  m_SizeDelta: {x: 700, y: 113.49666}
+  m_AnchoredPosition: {x: 375, y: -408.22}
+  m_SizeDelta: {x: 700, y: 127.85333}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1068205830090137743
 CanvasRenderer:

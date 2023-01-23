@@ -11,8 +11,11 @@ public class GameManager : MonoBehaviour {
     PlayerAttack pa;
     HealthBar hb;
 
+    float gameTimer = 0.0f;
+
     [Header ("Menus")]
     public GameObject winMenu;
+    public TMP_Text winText;
     public GameObject nextLevelButton;
     public GameObject loseMenu;
     public TMP_Text loseTitle;
@@ -30,17 +33,20 @@ public class GameManager : MonoBehaviour {
     public GameObject speedIcon, strengthIcon, nightVisIcon;
     public Image speedFill, strengthFill, nightVisFill;
 
-    [Header("World Objects")]
+    [Header ("World Objects")]
     public GameObject nightLight;
     public TMP_Text monsterKillText;
 
     [Header ("Level Specific")]
     public int minMonstersToKill;
     int numMonstersKilled = 0;
+    public int monsterCap = 20;
 
     [HideInInspector]
     bool gameWinnable = false;
     public bool Winnable { get => gameWinnable; }
+
+    public int numMonstersCurrentlyInScene { get; private set; }
 
     private void Start () {
         Unpause ();
@@ -51,6 +57,9 @@ public class GameManager : MonoBehaviour {
     }
 
     private void Update () {
+
+        numMonstersCurrentlyInScene = FindObjectsOfType<FireMonster> ().Length;
+
         if (pc.Health <= 0) Lose ();
 
         if (Input.GetKeyDown (KeyCode.Escape) && !loseMenu.activeInHierarchy && !winMenu.activeInHierarchy) {
@@ -59,14 +68,32 @@ public class GameManager : MonoBehaviour {
         }
 
         gameWinnable = numMonstersKilled >= minMonstersToKill && !loseMenu.activeInHierarchy && !winMenu.activeInHierarchy && !pauseMenu.activeInHierarchy;
+
+        gameTimer += Time.deltaTime;
     }
 
     public void Win () {
         Time.timeScale = 0;
         pauseBlocker.SetActive (true);
-        winMenu.SetActive (true);
         if (level == SceneManager.sceneCountInBuildSettings - 1) nextLevelButton.SetActive (false);
         if (PlayerPrefs.GetInt ("LastLevelCompleted") < level) PlayerPrefs.SetInt ("LastLevelCompleted", level);
+        float best;
+        string bestKeyName = "Level" + level + "Best";
+        if (PlayerPrefs.HasKey(bestKeyName)) {
+            // not the first play of this level
+            best = PlayerPrefs.GetFloat (bestKeyName);
+            if (gameTimer < best) {
+                // new best
+                best = gameTimer;
+                PlayerPrefs.SetFloat (bestKeyName, gameTimer);
+            }
+        } else {
+            // first play of this level
+            best = gameTimer;
+            PlayerPrefs.SetFloat (bestKeyName, best);
+        }
+        winText.text = "LEVEL COMPLETE!\nTime:\t" + gameTimer.ToString ("F3") + " s\nBest:\t" + best.ToString ("F3") + " s";
+        winMenu.SetActive (true);
     }
 
     public void Lose () {
