@@ -137,6 +137,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fireballPrefab: {fileID: 2415156943765283853, guid: e575c782f99f39c4b9dc81be0b543c47, type: 3}
+  targetOverride: {fileID: 0}
+  Invincible: 0
+  DisableShoot: 0
   health: 6
   targetDist: 3
   maxShootDist: 3.5
@@ -145,5 +148,5 @@ MonoBehaviour:
   fireballsPerBurst: 3
   breakBetweenBursts: 3
   shootSpeed: 3
-  repulsion: 5
+  repulsion: 0.05
   speedMultiplier: 1

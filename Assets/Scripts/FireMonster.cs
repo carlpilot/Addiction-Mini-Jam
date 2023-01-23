@@ -8,8 +8,15 @@ public class FireMonster : MonoBehaviour {
 
     Transform target;
 
+    [Header ("Cheats")]
+    public Transform targetOverride;
+    public bool Invincible = false;
+    public bool DisableShoot = false;
+
+    [Header ("Health")]
     public int health = 6;
 
+    [Header ("Behaviour")]
     public float targetDist = 2.0f;
     public float maxShootDist = 3.5f;
     public float speed = 1.5f;
@@ -32,12 +39,13 @@ public class FireMonster : MonoBehaviour {
     GameManager gm;
 
     private void Start () {
-        target = GameObject.FindGameObjectWithTag ("Player").transform;
+        target = targetOverride == null ? GameObject.FindGameObjectWithTag ("Player").transform : targetOverride;
         pa = FindObjectOfType<PlayerAttack> ();
         gm = FindObjectOfType<GameManager> ();
         breakBetweenBursts *= Random.Range (0.9f, 1.1f);
         fireRate *= Random.Range (0.9f, 1.1f);
         cooldown = Random.Range (0f, breakBetweenBursts);
+        if (Invincible) health = int.MaxValue;
     }
 
     private void Update () {
@@ -47,17 +55,24 @@ public class FireMonster : MonoBehaviour {
         distToPlayer = (target.position - transform.position).magnitude;
         float distFromCircle = distToPlayer - targetDist;
         // attract to player circle
-        Vector3 dir = target.position - transform.position;
-        
-        // repel from other monsters
-        foreach(GameObject g in GameObject.FindGameObjectsWithTag("Monster")) {
-            if (g == this.gameObject) continue; // don't repel from self
-            dir -= (g.transform.position - transform.position) / (g.transform.position - transform.position).sqrMagnitude * repulsion;
-        }
-        
-        GetComponent<Rigidbody2D> ().velocity = (dir).normalized * Mathf.Clamp (speed * speedMultiplier * distFromCircle * distFromCircle, -speed * speedMultiplier, speed * speedMultiplier);
+        Vector3 dirAttract = target.position - transform.position;
 
-        if (inCooldown) cooldown += Time.deltaTime;
+        // repel from other monsters
+        Vector3 dirRepel = Vector3.zero;
+        foreach (GameObject g in GameObject.FindGameObjectsWithTag ("Monster")) {
+            if (g == this.gameObject) continue; // don't repel from self
+            dirRepel -= (g.transform.position - transform.position) / (g.transform.position - transform.position).sqrMagnitude;
+        }
+
+        Vector3 velAttract = dirAttract.normalized * Mathf.Clamp (speed * speedMultiplier * distFromCircle, -speed * speedMultiplier, speed * speedMultiplier);
+        Vector3 velRepel = dirRepel.normalized * Mathf.Clamp (speed * speedMultiplier * repulsion, -speed * speedMultiplier, speed * speedMultiplier);
+        GetComponent<Rigidbody2D> ().velocity = velAttract + velRepel;
+
+        //GetComponent<Rigidbody2D> ().velocity = (dir).normalized * Mathf.Clamp (speed * speedMultiplier * distFromCircle, -speed * speedMultiplier, speed * speedMultiplier);
+
+
+
+        if (inCooldown && !DisableShoot) cooldown += Time.deltaTime;
         else {
             if (timeSinceLastFire >= fireRate / speedMultiplier && shootCondition) {
                 ShootFireball ();
@@ -68,7 +83,7 @@ public class FireMonster : MonoBehaviour {
             }
         }
 
-        if(cooldown > breakBetweenBursts / speedMultiplier) {
+        if (cooldown > breakBetweenBursts / speedMultiplier) {
             cooldown = 0.0f;
             inCooldown = false;
         }
@@ -82,6 +97,8 @@ public class FireMonster : MonoBehaviour {
     }
 
     void ShootFireball () {
+        if (DisableShoot) return;
+
         float dist = Vector2.Distance (transform.position, target.position);
         float flightTime = dist / shootSpeed;
 
@@ -107,8 +124,8 @@ public class FireMonster : MonoBehaviour {
     }
 
     private void OnCollisionEnter2D (Collision2D collision) {
-        if(collision.collider.tag == "Sword" && pa.isSwinging && !pa.hasStruckThisSwing) {
-            health -= pa.hitDamage;
+        if (collision.collider.tag == "Sword" && pa.isSwinging && !pa.hasStruckThisSwing) {
+            if (!Invincible) health -= pa.hitDamage;
             pa.hasStruckThisSwing = true;
         }
     }

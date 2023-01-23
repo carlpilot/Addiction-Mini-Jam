@@ -16,7 +16,6 @@ public class PlayerController : MonoBehaviour {
     float walkTimer = 0.0f;
 
     public float walkSpeed = 1.0f;
-    public float walkInertia = 0.4f;
 
     HealthBar healthBar;
     int health;
