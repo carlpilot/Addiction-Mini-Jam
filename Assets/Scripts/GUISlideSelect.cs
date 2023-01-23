@@ -49,7 +49,6 @@ public class GUISlideSelect : MonoBehaviour
             foreach (RectTransform r in slides) {
                 r.anchoredPosition += Vector2.right * d;
             }
-            Debug.Log (d);
             distTravelled += Mathf.Abs (d);
             yield return new WaitForEndOfFrame ();
 

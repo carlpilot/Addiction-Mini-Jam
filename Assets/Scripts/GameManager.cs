@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour {
         pauseBlocker.SetActive (true);
         winMenu.SetActive (true);
         if (level == SceneManager.sceneCountInBuildSettings - 1) nextLevelButton.SetActive (false);
+        if (PlayerPrefs.GetInt ("LastLevelCompleted") < level) PlayerPrefs.SetInt ("LastLevelCompleted", level);
     }
 
     public void Lose () {
