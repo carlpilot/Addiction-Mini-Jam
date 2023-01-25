@@ -7,7 +7,7 @@ using TMPro;
 public class VersionChecker : MonoBehaviour {
 
     public static string path = "https://raw.githubusercontent.com/carlpilot/Addiction-Mini-Jam/main/version.txt";
-    public static string changelogLink = "https://raw.githubusercontent.com/carlpilot/Addiction-Mini-Jam/main/changelog.md";
+    public static string changelogLink = "https://github.com/carlpilot/Addiction-Mini-Jam/blob/main/changelog.md";
 
     public static string CurrentVersion;
 
@@ -18,7 +18,7 @@ public class VersionChecker : MonoBehaviour {
 
     private void Awake () {
         CurrentVersion = Application.version;
-        staticVersionDisplay.text = "Version " + CurrentVersion;
+        staticVersionDisplay.text = "Version v" + CurrentVersion;
     }
 
     private void Start () {
@@ -29,7 +29,7 @@ public class VersionChecker : MonoBehaviour {
     IEnumerator WwwRequestVersion () {
         WWW www = new WWW (path);
 
-        yield return www;// new WaitUntil (() => www.isDone);
+        yield return www; // wait until results
 
         string[] lines = www.text.Split (new char[] { '\n' }, 3);
 
@@ -37,7 +37,7 @@ public class VersionChecker : MonoBehaviour {
             Debug.Log ("Update needed: version available: (" + lines[0] + ") vs current version: (" + CurrentVersion + ")");
             newVersionNotification.SetActive (true);
             newVersionMessage.text = lines[1];
-            versionDisplay.text = string.Format ("Current Version: {0}\tNew Version: {1}", CurrentVersion, lines[0]);
+            versionDisplay.text = string.Format ("Currently: v{0}\nAvailable:  v{1}", CurrentVersion, lines[0]);
         } else {
             Debug.Log ("Up to date");
         }
@@ -53,12 +53,6 @@ public class VersionChecker : MonoBehaviour {
     }
 
     public void OpenChangelog () {
-        Application.OpenURL ("https://carlpilot.itch.io/addicted");
         Application.OpenURL (changelogLink);
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit (); 
-        #endif
     }
 }
